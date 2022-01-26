@@ -3,11 +3,11 @@
 require "test_helper"
 
 class TestHashZen < Minitest::Test
-  def test_that_it_has_a_version_number
-    refute_nil ::HashZen::VERSION
+  test "one two three" do
+    assert_equal 2, 2
   end
 
-  def test_it_does_something_useful
-    assert false
+  def test_that_it_has_a_version_number
+    refute_nil ::HashZen::VERSION
   end
 end
