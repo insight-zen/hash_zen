@@ -49,5 +49,58 @@ module HashZen
         assert_nil_equal spec[:result], Utils.include?(input: spec[:input], keys: spec[:keys], check: spec[:check]), msg
       end
     end
+
+    [
+      { input: nil,   result: true, desc: "" },
+      { input: false, result: true, desc: "" },
+      { input: [],    result: true, desc: "" },
+      { input: {},    result: true, desc: "" },
+    ].each_with_index do |spec, ix|
+      test "blank #{spec[:desc]} #{ ix }" do
+        msg = %Q!#{spec[:desc] ? "Asking for #{spec[:desc]}\n" : ''}With spec: #{ spec }!
+        assert_nil_equal spec[:result], Utils.blank?(input: spec[:input], **(spec[:opts] || {})), msg
+      end
+    end
+
+    [
+      { input: [:a, 1],               result: [:a, 1], desc: "" },
+      { input: [:a, "", nil, "  "],   result: [:a],    desc: "empty string, nil, whitespace string" },
+    ].each_with_index do |spec, ix|
+      test "array compact #{spec[:desc]} #{ ix }" do
+        msg = %Q!#{spec[:desc] ? "Asking for #{spec[:desc]}\n" : ''}With spec: #{ spec }!
+        assert_nil_equal spec[:result], Utils.array_compact(input: spec[:input], **(spec[:opts] || {})), msg
+      end
+    end
+
+    [
+      { input: { a: 1, b: nil },         result: { a: 1 },  desc: "" },
+      { input: { a: 1, b: "", c: " " }, result: { a: 1 },  desc: "value is empty string and whitespace" },
+      { input: { a: [], b: {}, c: 1 }, result: { c: 1 },    desc: "empty array and hash in values" },
+    ].each_with_index do |spec, ix|
+      test "hash compact #{spec[:desc]} #{ ix }" do
+        msg = %Q!#{spec[:desc] ? "Asking for #{spec[:desc]}\n" : ''}With spec: #{ spec }!
+        assert_nil_equal spec[:result], Utils.hash_compact(input: spec[:input], **(spec[:opts] || {})), msg
+      end
+    end
+
+    test "nested hash compact" do
+      h = { i: nil, j: "", k: false }
+      x = { u: "", v: nil, w: 2, y: [1, nil], z: { f: 1, g: nil } }
+      rv = HashZen::Utils.hash_compact(input: { a: 1, b: h, c: x })
+      result = { a: 1, c: { w: 2, y: [1], z: { f: 1 } } }
+      assert_equal result, rv
+    end
+
+    test "nested array compact" do
+    end
+
+    [
+      { input: { a: 1, b: nil, c: "  ", d: { p: nil, q: "" } },         result: { a: 1 },  desc: "" },
+    ].each_with_index do |spec, ix|
+      test "generic compact #{spec[:desc]} #{ ix }" do
+        msg = %Q!#{spec[:desc] ? "Asking for #{spec[:desc]}\n" : ''}With spec: #{ spec }!
+        assert_nil_equal spec[:result], Utils.compact(input: spec[:input], **(spec[:opts] || {})), msg
+      end
+    end
   end
 end

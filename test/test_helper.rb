@@ -1,5 +1,12 @@
 # frozen_string_literal: true
 
+coverage_on = ENV["COV"]
+if coverage_on
+  require "simplecov"
+  SimpleCov.start do
+  end
+end
+
 $LOAD_PATH.unshift File.expand_path("../lib", __dir__)
 require "hash_zen"
 

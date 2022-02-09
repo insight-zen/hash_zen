@@ -67,7 +67,6 @@ module HashZen
       define_method "#{k}_keys" do
         @result[:groups][k]
       end
-
     end
 
     # True/False answer to the question - Are the two hashes identical
@@ -112,7 +111,6 @@ module HashZen
 
     # If key appears in a map, give a Diff for the values saved
     def key_diff(key:, **opts)
-
     end
 
     # Given one item (key, value) of the result[:map] hash, formats for display

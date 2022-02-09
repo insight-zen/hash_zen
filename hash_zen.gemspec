@@ -38,6 +38,8 @@ Gem::Specification.new do |spec|
   # https://thoughtbot.com/blog/rubys-pessimistic-operator
   # "~> 4.0.0" is the same as ">= 4.0.0", "< 4.1.0"
   # "~> 1.1"   is the same as ">= 1.1",   "< 2.0"
+
+  spec.add_development_dependency "simplecov"
   spec.add_development_dependency "byebug"
   spec.add_development_dependency "guard"
   spec.add_development_dependency "guard-minitest"
