@@ -89,6 +89,21 @@ module HashZen
           missing_keys.length == 0 ? true : false
         end
       end
+
+      # Returns true/false based on if CHECK passes the ONLY AND EXCEPT conditions
+      # ONLY and EXCEPT are arrays (or nils). CHECK is the value to be checked.
+      # See tests for usage examples
+      def only_except?(only: nil, except: nil, check:)
+        if only
+          [only].flatten.include?(check) &&
+          (except.nil? || ![except].flatten.include?(check))
+        elsif except
+          ![except].flatten.include?(check) &&
+          (only.nil? || [only].flatten.include?(check))
+        else
+          true
+        end
+      end
     end
   end
 end

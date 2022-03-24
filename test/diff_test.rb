@@ -110,33 +110,6 @@ module HashZen
     end
 
     [
-      { result: true, desc: "Neither only nor except is speciifed" },
-
-      { only: :a,         result: true },
-      { only: :a,         check: :c, result: false },
-      { except: :a,       result: false },
-      { except: :a,       check: :c, result: true },
-
-      { only: [:a, :b],   result: true },
-      { except: [:a, :b], result: false },
-      { only: [:a, :b],   check: :c, result: false },
-      { except: [:a, :b], check: :c, result: true },
-
-      { only: :a, except: :a, result: false },
-      { only: :a, except: :b, result: true },
-      { only: :a, except: :a, check: :c, result: false },
-      { only: :a, except: :b, check: :c, result: false },
-      { only: [:a, :c], except: :b, check: :c, result: true },
-    ].each_with_index do |spec, ix|
-      test "only_except #{ ix }" do
-        spec[:check] ||= :a
-        msg = %Q!#{spec[:desc] ? "Asking for #{spec[:desc]}\n" : ''}With spec: #{ spec }!
-        hd = Diff.new(base: {}, target: {})
-        assert_nil_equal spec[:result], hd.only_except?(only: spec[:only], except: spec[:except], check: spec[:check]), msg
-      end
-    end
-
-    [
       { key: :null,        result: " -+ null: (missing) false (FalseClass)", desc: "s: missing" },
       { key: :index,       result: " +- index: (extra) yes (Symbol)", desc: "s: extra" },
       { key: :column_name, result: " == column_name: (identical) ", desc: "s: identical" },

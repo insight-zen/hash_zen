@@ -138,24 +138,10 @@ module HashZen
       "%s%02s %-16s %-10s %s" % [ indent, status_sym(code), "#{key}:", "(#{code})", exp_str]
     end
 
-    # To select from a list of keys using only: and except: specifications.
-    # See tests for examples
-    def only_except?(only: nil, except: nil, check:)
-      if only
-        [only].flatten.include?(check) &&
-        (except.nil? || ![except].flatten.include?(check))
-      elsif except
-        ![except].flatten.include?(check) &&
-        (only.nil? || [only].flatten.include?(check))
-      else
-        true
-      end
-    end
-
     def result_itemized(**opts)
       rv = result[:map].filter_map { |(column_name, result)|
         # res = only_except?(only: opts[:only], except: opts[:except], check: result[:s])
-        only_except?(only: opts[:only], except: opts[:except], check: result[:s]) ? result_line(key: column_name, **opts) : nil
+        Utils.only_except?(only: opts[:only], except: opts[:except], check: result[:s]) ? result_line(key: column_name, **opts) : nil
       }
       puts rv.join("\n") if opts[:log]
       rv = rv.join("\n") if opts[:format] == :string
